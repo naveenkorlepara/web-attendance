@@ -1,0 +1,179 @@
+*,*::after,*::before{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html{
+    font-size: 62.5%;
+}
+.container{
+    max-width: 1400px;
+    width: 90%;
+    margin: auto;
+}
+.navbar{
+    width: 100%;
+    box-shadow: 0px 5px 10px 0px #aaa;
+}
+.nav-container{
+    display: flex;
+    height: 8vh;
+    justify-content: space-between;
+    align-items: center;
+}
+.menu-items{
+    display: flex;
+}
+.navbar li{
+    list-style: none;
+    margin-left: 4rem;
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
+.navbar li a{
+    text-decoration: none;
+    color: rgb(41, 120, 194);
+    font-weight: 800;
+    transition: all 0.3s;
+}
+.navbar li a:hover{
+    color: black;
+}
+.logo{
+    font-size: 3rem;
+}
+.qrarea{
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#qrbtn{
+    background-color: #1E90FF;
+    font-weight: bold;
+    font-size: 18px;
+    width: 200px;
+    padding: 15px;
+    text-transform: uppercase;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.qrdestroy{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+#qrstopbtn{
+    margin-top: 2rem;
+    background-color: #1E90FF;
+    font-weight: bold;
+    font-size: 18px;
+    width: 200px;
+    padding: 10px;
+    text-transform: uppercase;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: none;
+}
+.studentAttendace{
+    margin-top: 30px;
+    height: 500px;
+    border-top: 3px solid red;
+}
+.sAHead{
+    text-align: center;
+    font-size: 70px;
+    margin-top: 60px;
+}
+
+
+.content-table{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 20px;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    text-transform: uppercase;
+}
+.content-table thead tr{
+    background-color: #009879;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    border: 1.5px solid red;
+}
+.content-table th,
+.content-table td{
+    padding: 12px 15px;
+}
+.table-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#excel{
+    margin-top: 30px;
+    background-color: #1E90FF;
+    font-weight: bold;
+    font-size: 10x;
+    width: 170px;
+    padding: 15px;
+    text-transform: uppercase;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+#selectdate{
+    text-align: center;
+    margin-top: 30px;
+}
+#formText{
+    font-size: 40px;
+}
+#form-date{
+    background-color: #0080ff;
+    padding: 10px;
+    color: #ffffff;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+::-webkit-calendar-picker-indicator{
+    background-color: #ffffff;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+#submit{
+    margin-top: 2rem;
+    background-color: #1E90FF;
+    font-weight: bold;
+    font-size: 18px;
+    width: 200px;
+    padding: 10px;
+    text-transform: uppercase;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#studaTab{
+    display: none;
+}

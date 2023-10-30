@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <nav class="navbar">
+        <div class="nav-container container">
+            <h1 class="logo">LOGO</h1>
+            <h1 class="logo">College Attendance</h1>
+            <ul class="menu-items">
+                <li><a href="#">QR Generator</a></li>
+                <li><a href="#studAtBar">Student Attendance</a></li>
+            </ul>
+        </div>
+    </nav>
+    <section class="qrarea">
+        <div class="output"></div>
+        <!-- <button id="timer">Select Timer</button> -->
+        <button id="qrbtn">Generate QR</button>
+    </section>
+
+    <section class="qrdestroy">
+        <button id="qrstopbtn">Stop QR</button>
+    </section>
+
+    <section id="studAtBar" class="studentAttendace">
+        <h1 class="sAHead">Student Attendace List</h1>
+        <br>
+        <section id="selectdate">
+            <form class="form" onsubmit="return false;">
+                <label id="formText" for="form-date">Select Date:</label>
+                <input type="date" name="dateData" id="form-date">
+                <br>
+                <button id="submit">submit</button>
+            </form>
+        </section>
+        <section id="studaTab">
+            <div class="table-container">
+                <button id="excel">Export to Excel</button>
+                <table id="download-excel" class="content-table">
+                    <thead>
+                        <th>SNo</th>
+                        <th>RollNumber</th>
+                        <th>UserName</th>
+                        <th>Time</th>    
+                    </thead>
+                    <tbody id="tbody1"></tbody>
+                </table>
+            </div>
+        </section>
+    </section>
+
+    
+
+
+
+
+    <script src="./table2excel.js"></script>
+
+    <script type="module">
+
+        let months = {
+                "01" : "January",
+                "02" : "February",
+                "03" : "March",
+                "04" : "April",
+                "05" : "May",
+                "06" : "June",
+                "07" : "July",
+                "08" : "August",
+                "09" : "September",
+                "10" : "October",
+                "11" : "November",
+                "12" : "December"
+            }
+        let yearVal,monthVal,dateVal;
+
+        var stdNo = 0;
+        var tbody = document.getElementById('tbody1');
+
+        document.getElementById('submit').addEventListener('click',function(){
+            let date = document.getElementById("form-date").value;
+            if(date==""){
+                alert("Nothing to Display.  Select the Date");
+            }
+            else{
+                dateVal = date;
+                yearVal = date.slice(0,4);
+                monthVal = months[date.slice(5,7)];
+                document.getElementById("studaTab").style.display = "initial";
+                document.getElementById("selectdate").style.display = "none";
+                GetAllDataRealTime();
+            }
+        })
+
+        function AddItemToTable(name,age,gpa){
+            let trow = document.createElement("tr");
+            let td1 = document.createElement('td');
+            let td2 = document.createElement('td');
+            let td3 = document.createElement('td');
+            let td4 = document.createElement('td');
+
+            td1.innerHTML = ++stdNo;
+            td2.innerHTML = name;
+            td3.innerHTML = age;
+            td4.innerHTML = gpa;
+
+            trow.appendChild(td1);
+            trow.appendChild(td2);
+            trow.appendChild(td3);
+            trow.appendChild(td4);
+
+            tbody.appendChild(trow);
+            trow.style.textAlign = "center";
+            trow.style.border = "1.5px solid red";
+        }
+
+        function AddAllItemsToTable(TheStudent){
+            stdNo = 0;
+            tbody.innerHTML = "";
+            TheStudent.forEach(element => {
+                AddItemToTable(element.Rollnumber,element.Username,element.Time);
+            });
+        }
+
+
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyAwMdbV8b_r8uRWvaXMdyNc71oS5z-Hvlo",
+          authDomain: "attendance-app-f2a3e.firebaseapp.com",
+          databaseURL: "https://attendance-app-f2a3e-default-rtdb.firebaseio.com",
+          projectId: "attendance-app-f2a3e",
+          storageBucket: "attendance-app-f2a3e.appspot.com",
+          messagingSenderId: "1026166219231",
+          appId: "1:1026166219231:web:5956f17ddcbd678f7ea46a",
+          measurementId: "G-SGGR0KZ7V7"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        import {getDatabase, ref, set, child, onValue, update, remove} from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js";
+        const db = getDatabase();
+
+        remove(ref(db,"Admin/SatyaKeerthi/qr"));
+
+        let myInterval;
+        document.getElementById('qrbtn').addEventListener('click',()=>{
+            qrbtn.style.display = 'none';
+            qrstopbtn.style.display = 'initial';
+            document.querySelector(".output").style.display = 'initial';
+            console.log("Initial");
+            qrgenerator();
+            myInterval = setInterval(qrgenerator,7000);
+        });
+
+        function qrgenerator(){
+            console.log("Hello");
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for ( var i = 0; i < 30; i++ ) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            let qrcodeimg = document.querySelector(".output");
+            // document.querySelector(".output").style.display = 'initial';
+            console.log("Bye 1")
+            console.log(result);
+            qrcodeimg.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${result}"></img>`;
+            console.log("Bye 2");
+            set(ref(db,"Admin/SatyaKeerthi/qr"),{
+                qrdata: result
+            });
+        }
+
+        document.getElementById('qrstopbtn').addEventListener('click',()=>{
+            remove(ref(db,"Admin/SatyaKeerthi/qr"))
+            clearInterval(myInterval);
+            document.querySelector(".output").style.display = 'none';
+            qrbtn.style.display = 'initial';
+            qrstopbtn.style.display = 'none';
+        });
+
+
+        function GetAllDataOnce(){
+            const dbRef = ref(db);
+            get(child(dbRef,"Students")).then((snapshot)=>{
+                var students = [];
+                snapshot.forEach(childSnapshot => {
+                    students.push(childSnapshot.val());
+                });
+
+                AddAllItemsToTable(students);
+            })
+        }
+
+        function GetAllDataRealTime(){
+            const dbRef = ref(db,"Admin/SatyaKeerthi/Attendance/"+yearVal+"/"+monthVal+"/"+dateVal);
+            onValue(dbRef,(snapshot)=>{
+                var students = [];
+                snapshot.forEach(childSnapshot => {
+                    students.push(childSnapshot.val());
+                });
+
+                AddAllItemsToTable(students);
+            });
+        }
+
+
+        // window.onload = GetAllDataRealTime;
+        // GetAllDataRealTime();
+
+        document.getElementById("excel").addEventListener('click',function(){
+            var table2excel = new Table2Excel();
+            table2excel.export(document.getElementById("download-excel"));
+        })
+
+    </script>
+
+</body>
+</html>
